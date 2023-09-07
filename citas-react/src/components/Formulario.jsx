@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 // SweetAlert2
 import Swal from "sweetalert2";
 
-const Formulario = () => {
+const Formulario = ({ pacientes, setPacientes }) => {
 
     // Uso de useState();
     // Nombre Mascota
@@ -34,7 +34,25 @@ const Formulario = () => {
             })
 
         }else {
-            console.log('Todos llenos');
+
+            // Objeto de Paciente
+            const objectoPaciente = {
+                nombre, 
+                propietario,
+                email,
+                fecha,
+                sintomas
+            }
+            
+            // Agregamos un areglo sin dañar el original
+            setPacientes( [ ...pacientes, objectoPaciente ] );
+
+            // Reiniciar el Formulario - Básicamente, después de agregar un registro, este se limpia para crear uno nuevo.
+            setNombre('');
+            setPropietario('');
+            setEmail('');
+            setFecha('');
+            setSintomas('');
         }
 
     }

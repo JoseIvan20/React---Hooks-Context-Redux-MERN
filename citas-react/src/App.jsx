@@ -17,17 +17,17 @@ function App () {
     <div className="container mx-auto mt-20">
     
       {/* Header */}
-      <Header 
-
-        // Props o Porpiedades
-
-
-      />
+      <Header />
 
       <div className="mt-12 md:flex">
 
         {/* Formulario */}
-        <Formulario/>
+        <Formulario 
+
+          pacientes={ pacientes }
+          setPacientes={ setPacientes }
+        
+        />
 
         {/* ListadoPacientes */}
         <ListadoPacientes />
