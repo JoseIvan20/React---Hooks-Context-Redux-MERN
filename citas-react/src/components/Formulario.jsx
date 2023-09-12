@@ -1,7 +1,7 @@
 // Importación de los Hooks
 import { useState, useEffect } from "react";
-// SweetAlert2
-import Swal from "sweetalert2";
+// Mensaje de Error desde el componente de Error.jsx
+import Error from "./Error";
 
 const Formulario = ({ pacientes, setPacientes }) => {
 
@@ -16,45 +16,51 @@ const Formulario = ({ pacientes, setPacientes }) => {
     const [ fecha, setFecha ] = useState('');
     // Síntomas
     const [ sintomas, setSintomas ] = useState('');
+    // Mensaje de Error
+    const [ error, setError ] = useState(false);
 
+    // Generador de Id
+    const generarId = () => {
+
+        const random = Math.random().toString(36).substr(2); // random
+        const fecha = Date.now().toString(36); // Fecha
+
+        return random + fecha;
+
+    }
+ 
     const handleSubmit = (e) => {
         e.preventDefault();
         
         // Validación de Formulario
-        if ( nombre == '' || propietario == '' || email == '' || fecha == '' || sintomas == '' ){
+        if ( [ nombre, propietario, email, fecha, sintomas ].includes('') ){
             
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Todos los campos son obligatorios.',
-                timer: 3200,
-                timerProgressBar: true,
-                showConfirmButton: false,
-                showCancelButton: false,
-            })
+            setError(true);
+            return;
 
-        }else {
-
-            // Objeto de Paciente
-            const objectoPaciente = {
-                nombre, 
-                propietario,
-                email,
-                fecha,
-                sintomas
-            }
-            
-            // Agregamos un areglo sin dañar el original
-            setPacientes( [ ...pacientes, objectoPaciente ] );
-
-            // Reiniciar el Formulario - Básicamente, después de agregar un registro, este se limpia para crear uno nuevo.
-            setNombre('');
-            setPropietario('');
-            setEmail('');
-            setFecha('');
-            setSintomas('');
         }
 
+        setError(false);
+
+        // Objeto de Paciente
+        const objectoPaciente = {
+            nombre, 
+            propietario,
+            email,
+            fecha,
+            sintomas,
+            id: generarId()
+        }
+        
+        // Agregamos un areglo sin dañar el original
+        setPacientes( [ ...pacientes, objectoPaciente ] );
+
+        // Reiniciar el Formulario - Básicamente, después de agregar un registro, este se limpia para crear uno nuevo.
+        setNombre('');
+        setPropietario('');
+        setEmail('');
+        setFecha('');
+        setSintomas('');
     }
 
   return (
@@ -68,6 +74,14 @@ const Formulario = ({ pacientes, setPacientes }) => {
         </p>
 
         <form action="" className="bg-white shadow-lg rounded-md py-10 px-5 mb-10" onSubmit={handleSubmit}>
+
+            { error &&
+
+                <Error> 
+                    <p>Todos los campos son obligatorios.</p> 
+                </Error> 
+                
+            }
 
             {/* Nombre Mascota: */}
             <div className="mb-5">

@@ -1,20 +1,8 @@
-// SweetAlert2
-import Swal from "sweetalert2";
-
-const Error = () => {
-
+const Error = ( { children } ) => {
   return (
-
-    Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Todos los campos son obligatorios.',
-        timer: 3200,
-        timerProgressBar: true,
-        showConfirmButton: false,
-        showCancelButton: false,
-    })
-
+    <div className="bg-red-700 text-white font-bold rounded-md shadow-md uppercase text-center p-3 mb-3">
+        { children }
+    </div>
   )
 }
 
